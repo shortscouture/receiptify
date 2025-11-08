@@ -12,6 +12,9 @@ yarn-error.log*
 /build
 /out
 
+# Database
+data/*.sqlite
+
 # Environment variables
 .env
 .env.local
