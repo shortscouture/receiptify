@@ -1,6 +1,9 @@
 require('dotenv').config();
 const express = require('express');
+const session = require('express-session');
+const SQLiteStore = require('connect-sqlite3')(session);
 const cors = require('cors');
+const passport = require('./config/passport');
 const { sequelize, initializeModels } = require('./models');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
@@ -9,26 +12,62 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
-app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// CORS configuration - important for OAuth
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost',
+  credentials: true
+}));
+
+// Session configuration
+app.use(session({
+  store: new SQLiteStore({
+    db: 'sessions.db',
+    dir: './data'
+  }),
+  secret: process.env.SESSION_SECRET || 'your-secret-key-change-in-production',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
+  }
+}));
+
+// Initialize Passport
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Routes
 app.get('/', (req, res) => {
-    res.send('Hello World!');
+    res.json({ 
+        message: 'Receiptify API with Google OAuth', 
+        version: '1.0.0',
+        endpoints: {
+            googleLogin: '/api/auth/google',
+            status: '/api/auth/status',
+            profile: '/api/auth/profile',
+            logout: '/api/auth/logout'
+        }
+    });
 });
 
-app.use('/auth', authRoutes);
+app.use('/api/auth', authRoutes);
 app.use('/api', userRoutes);
 
 const startServer = async () => {
     try {
         initializeModels();
         await sequelize.authenticate();
-        await sequelize.sync();
+        await sequelize.sync({ alter: true });
 
         app.listen(PORT, () => {
             console.log(`Server is running on port ${PORT}`);
+            console.log(`Google OAuth callback: ${process.env.GOOGLE_CALLBACK_URL || 'http://localhost:3000/api/auth/google/callback'}`);
         });
     } catch (error) {
         console.error('Unable to start server:', error);
