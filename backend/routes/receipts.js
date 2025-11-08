@@ -1,8 +1,17 @@
 const express = require('express');
 const { models } = require('../models');
 const { Op } = require('sequelize');
+const multer = require('multer');
+const receiptVisionService = require('../services/receiptVisionService');
 
 const router = express.Router();
+
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: parseInt(process.env.RECEIPT_UPLOAD_MAX_BYTES || `${5 * 1024 * 1024}`, 10)
+  }
+});
 
 // Middleware to check if user is authenticated
 const isAuthenticated = (req, res, next) => {
@@ -56,6 +65,48 @@ router.get('/', isAuthenticated, async (req, res) => {
     res.status(500).json({ 
       error: 'Failed to fetch receipts',
       details: error.message 
+    });
+  }
+});
+
+/**
+ * POST /api/receipts/parse/image
+ * Extract receipt fields from an uploaded image via Gemini
+ */
+router.post('/parse/image', isAuthenticated, upload.single('file'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No image file provided' });
+    }
+
+    if (!receiptVisionService.isConfigured) {
+      return res.status(503).json({ error: 'Gemini integration is not configured' });
+    }
+
+    const result = await receiptVisionService.extractFromImage(
+      req.file.buffer,
+      req.file.mimetype
+    );
+
+    res.json({
+      success: true,
+      extracted: result,
+      source: {
+        filename: req.file.originalname,
+        mimetype: req.file.mimetype,
+        size: req.file.size
+      }
+    });
+  } catch (error) {
+    console.error('Error parsing receipt image:', error);
+    const message = error?.message || '';
+    const status = message.includes('not valid JSON') || message.includes('provide')
+      ? 422
+      : 500;
+
+    res.status(status).json({
+      error: 'Failed to parse receipt image',
+      details: message
     });
   }
 });

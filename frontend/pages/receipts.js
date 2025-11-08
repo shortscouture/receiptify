@@ -162,6 +162,7 @@ export default function Receipts() {
           <div className={styles.navLinks}>
             <Link href="/dashboard" className={styles.navLink}>Dashboard</Link>
             <Link href="/receipts" className={`${styles.navLink} ${styles.active}`}>Receipts</Link>
+            <Link href="/receipts-upload" className={styles.navLink}>Upload</Link>
           </div>
           <div className={styles.userSection}>
             {user.picture && (

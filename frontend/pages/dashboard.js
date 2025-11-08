@@ -115,6 +115,14 @@ export default function Dashboard() {
                 Explore →
               </Link>
             </div>
+            <div className={styles.feature}>
+              <span className={styles.featureIcon}>📸</span>
+              <h4>Test Image Upload</h4>
+              <p>Try parsing a photo of a receipt with Gemini</p>
+              <Link href="/receipts-upload" className={styles.featureButton}>
+                Upload Receipt →
+              </Link>
+            </div>
           </div>
         </div>
       </main>

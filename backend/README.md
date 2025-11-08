@@ -1,3 +1,19 @@
+- `POST /api/receipts/parse/image` - Upload a receipt image (multipart field `file`) and receive parsed receipt fields
+
+### Receipt Image Parsing
+
+Once authenticated, you can send a multipart request with a receipt photo to extract structured data:
+
+```bash
+curl -X POST \
+	-H "Cookie: connect.sid=<session-cookie>" \
+	-F "file=@/path/to/receipt.jpg" \
+	http://localhost:3000/api/receipts/parse/image
+```
+
+The response includes the sanitized fields that map directly to the `receipts` table (`datetime`, `merchant`, `category`, `amount`, `currency`, `notes`, etc.) along with the Gemini confidence score and any extracted line items.
+
+Ensure `GEMINI_API_KEY` (and optionally `GEMINI_VISION_MODEL`) are set before using this feature.
 # Receiptify Backend
 
 Node.js/Express API with SQLite database and JWT authentication.
@@ -84,6 +100,10 @@ JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
 DB_STORAGE=./data/database.sqlite
 DB_LOGGING=false
 PORT=3000
+GEMINI_API_KEY=your-gemini-api-key
+GEMINI_MODEL=gemini-pro
+GEMINI_VISION_MODEL=gemini-2.5-flash
+RECEIPT_UPLOAD_MAX_BYTES=5242880
 ```
 
 **⚠️ Important:** Change `JWT_SECRET` to a strong random value in production!
@@ -111,6 +131,7 @@ See [docs/AUTH.md](./docs/AUTH.md) for detailed API documentation.
 
 ### Protected Routes (require JWT)
 - `GET /api/me` - Get current user info
+- `POST /api/receipts/parse/image` - Upload a receipt image (multipart field `file`) and receive parsed receipt fields
 
 ## Testing
 
@@ -173,4 +194,3 @@ npm test -- models.test.js
 - Add email verification
 - Create receipt CRUD endpoints
 - Add receipt filtering/search
-- Implement file upload for receipt images
