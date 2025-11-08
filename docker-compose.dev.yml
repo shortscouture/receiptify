@@ -1,0 +1,12 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+      target: base # Use the base stage, not the production runner
+    command: npm run dev
+    volumes:
+      - ./frontend:/app  # Mount source code for hot reload
+      - /app/node_modules  # Preserve node_modules from container
+      - /app/.next  # Preserve .next build cache
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend:3000
