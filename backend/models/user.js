@@ -7,6 +7,11 @@ module.exports = (sequelize) => {
       primaryKey: true,
       autoIncrement: true
     },
+    googleId: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: true
+    },
     name: {
       type: DataTypes.STRING,
       allowNull: false
@@ -21,7 +26,19 @@ module.exports = (sequelize) => {
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true  // Made nullable for OAuth users
+    },
+    picture: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    givenName: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    familyName: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     tableName: 'users',
