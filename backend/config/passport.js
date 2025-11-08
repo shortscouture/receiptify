@@ -6,11 +6,14 @@ const { models } = require('../models');
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: process.env.GOOGLE_CALLBACK_URL || 'http://localhost:3000/api/auth/google/callback'
+    callbackURL: process.env.GOOGLE_CALLBACK_URL || 'http://localhost:3000/api/auth/google/callback',
+    accessType: 'offline',
+    prompt: 'consent'
   },
   async (accessToken, refreshToken, profile, done) => {
     try {
       const User = models.User;
+      const UserToken = models.UserToken;
       
       // Extract user info from Google profile
       const googleId = profile.id;
@@ -57,6 +60,20 @@ passport.use(new GoogleStrategy({
         user.givenName = givenName;
         user.familyName = familyName;
         await user.save();
+      }
+
+      // Store or update OAuth tokens
+      if (accessToken) {
+        const expiryDate = new Date();
+        expiryDate.setHours(expiryDate.getHours() + 1); // Default 1 hour expiry
+
+        await UserToken.upsert({
+          userId: user.id,
+          accessToken: accessToken,
+          refreshToken: refreshToken || null,
+          expiryDate: expiryDate,
+          scope: profile._json.scope || 'profile email'
+        });
       }
 
       return done(null, user);

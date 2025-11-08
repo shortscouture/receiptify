@@ -14,7 +14,13 @@ const isAuthenticated = (req, res, next) => {
 // Initiate Google OAuth
 router.get('/google',
   passport.authenticate('google', { 
-    scope: ['profile', 'email'] 
+    scope: [
+      'profile', 
+      'email',
+      'https://www.googleapis.com/auth/gmail.readonly'
+    ],
+    accessType: 'offline',
+    prompt: 'consent'
   })
 );
 
