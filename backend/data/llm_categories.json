@@ -1,0 +1,82 @@
+{
+  "category_mapping": [
+    {
+      "category_id": "FOOD",
+      "Category": "Food & Drinks",
+      "Description": "Everyday meals, coffee, snacks, groceries, and food delivery services.",
+      "Common_Examples": ["GrabFood", "Foodpanda", "McDonald’s", "Jollibee", "7-Eleven", "Starbucks", "Shopee Grocery", "Supermarket"]
+    },
+    {
+      "category_id": "TRANSPO",
+      "Category": "Transportation",
+      "Description": "Commuting costs, ride-sharing, tolls, fuel, or public transport tickets.",
+      "Common_Examples": ["Grab (Rides)", "Angkas", "Bus Tickets", "Gas Station", "Tolls", "MRT/LRT Card Top-up"]
+    },
+    {
+      "category_id": "SHOPPING",
+      "Category": "Shopping / Retail",
+      "Description": "General online or physical goods, clothing, and houseware purchases.",
+      "Common_Examples": ["Lazada", "Shopee (Non-Grocery/Electronic)", "Uniqlo", "SM Department Store", "Bookstore"]
+    },
+    {
+      "category_id": "UTILITY",
+      "Category": "Bills & Utilities",
+      "Description": "Recurring household services, electricity, water, and fixed digital bills.",
+      "Common_Examples": ["Meralco", "Maynilad", "Globe Telecom", "Smart Communications", "PLDT", "Postpaid Plan"]
+    },
+    {
+      "category_id": "ENTERTAIN",
+      "Category": "Entertainment",
+      "Description": "Leisure, streaming subscriptions, movies, events, and games.",
+      "Common_Examples": ["Netflix", "Spotify", "Disney+", "SM Cinema", "Concert Tickets", "Gaming Credits"]
+    },
+    {
+      "category_id": "HEALTH",
+      "Category": "Health & Wellness",
+      "Description": "Medical expenses, pharmacy purchases, fitness, and health supplements.",
+      "Common_Examples": ["Watsons", "Mercury Drug", "Gym Membership", "Clinic Fees", "Health Insurance"]
+    },
+    {
+      "category_id": "EDUCATION",
+      "Category": "Education & Learning",
+      "Description": "Tuition fees, school materials, online courses, and professional development.",
+      "Common_Examples": ["Coursera", "Udemy", "School Fees", "Books", "Tutorial Services"]
+    },
+    {
+      "category_id": "TRAVEL",
+      "Category": "Travel & Accommodation",
+      "Description": "Flights, hotel bookings, package tours, and related travel expenses.",
+      "Common_Examples": ["Cebu Pacific", "AirAsia", "Booking.com", "Agoda", "Airbnb"]
+    },
+    {
+      "category_id": "GADGETS",
+      "Category": "Gadgets & Electronics",
+      "Description": "Devices, computers, mobile phones, and electronic accessories.",
+      "Common_Examples": ["Power Mac", "Shopee Electronics", "PC Express", "Component Store"]
+    },
+    {
+      "category_id": "PERSONAL",
+      "Category": "Personal Care",
+      "Description": "Beauty products, grooming services, hygiene items, and salon visits.",
+      "Common_Examples": ["Watsons (Personal Care)", "The Body Shop", "Barbershop", "Salon"]
+    },
+    {
+      "category_id": "FINANCE",
+      "Category": "Finance & Fees",
+      "Description": "Bank charges, credit card fees, investment platform fees, and payment service charges.",
+      "Common_Examples": ["BDO Bank Fees", "GCash Fees", "PayPal Fees", "ATM Withdrawal Fee"]
+    },
+    {
+      "category_id": "GIFT",
+      "Category": "Gifts & Donations",
+      "Description": "Presents, charitable contributions, or money given to others.",
+      "Common_Examples": ["Shopee Gifts", "GCash Donations", "Charity", "Birthday Present"]
+    },
+    {
+      "category_id": "MISC",
+      "Category": "Others / Miscellaneous",
+      "Description": "Any valid expense that does not fit clearly into the defined categories above.",
+      "Common_Examples": ["Custom Items", "Unusual Purchase", "Uncategorized"]
+    }
+  ]
+}
