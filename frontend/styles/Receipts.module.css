@@ -1,0 +1,520 @@
+.container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.nav {
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.navContent {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #667eea;
+  text-decoration: none;
+}
+
+.logoIcon {
+  font-size: 2rem;
+}
+
+.navLinks {
+  display: flex;
+  gap: 2rem;
+}
+
+.navLink {
+  color: #6b7280;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+}
+
+.navLink:hover {
+  color: #667eea;
+  background: #f3f4f6;
+}
+
+.navLink.active {
+  color: #667eea;
+  background: #eef2ff;
+}
+
+.userSection {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #667eea;
+}
+
+.userName {
+  color: #374151;
+  font-weight: 500;
+}
+
+.main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  color: white;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin: 0;
+}
+
+.syncSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.gmailWarning {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  padding: 1rem 1.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  text-align: center;
+  color: white;
+}
+
+.gmailWarning p {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.smallText {
+  font-size: 0.85rem !important;
+  opacity: 0.9;
+  margin-top: 0.25rem !important;
+}
+
+.syncButtons {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.syncButton, .syncButtonSecondary {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.syncButton {
+  background: white;
+  color: #667eea;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.syncButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.syncButtonSecondary {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.syncButtonSecondary:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.syncButton:disabled, .syncButtonSecondary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.alert {
+  padding: 1rem 1.5rem;
+  border-radius: 0.75rem;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+  animation: slideIn 0.3s ease;
+}
+
+.alert.success {
+  background: #d1fae5;
+  color: #065f46;
+  border: 1px solid #6ee7b7;
+}
+
+.alert.error {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.statCard {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.statCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+.statIcon {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.statContent {
+  flex: 1;
+}
+
+.statLabel {
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.statValue {
+  color: #111827;
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.filters {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.filterSelect, .filterInput, .filterDate {
+  padding: 0.625rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.5rem;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+}
+
+.filterSelect {
+  min-width: 160px;
+}
+
+.filterInput {
+  flex: 1;
+  min-width: 200px;
+}
+
+.filterDate {
+  min-width: 150px;
+}
+
+.filterSelect:focus, .filterInput:focus, .filterDate:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.clearFilters {
+  padding: 0.625rem 1.25rem;
+  background: #fee2e2;
+  color: #991b1b;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.clearFilters:hover {
+  background: #fecaca;
+}
+
+.tableContainer {
+  background: white;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table thead {
+  background: #f9fafb;
+}
+
+.table th {
+  padding: 1rem 1.5rem;
+  text-align: left;
+  font-weight: 600;
+  color: #374151;
+  border-bottom: 2px solid #e5e7eb;
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #f3f4f6;
+  color: #6b7280;
+}
+
+.table tbody tr:hover {
+  background: #f9fafb;
+}
+
+.merchant {
+  font-weight: 600;
+  color: #111827;
+}
+
+.amount {
+  font-weight: 600;
+  color: #059669;
+  font-size: 1.05rem;
+}
+
+.source {
+  font-size: 0.9rem;
+}
+
+.categoryBadge, .statusBadge {
+  display: inline-block;
+  padding: 0.375rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.categoryBadge.groceries {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.categoryBadge.dining {
+  background: #fed7aa;
+  color: #92400e;
+}
+
+.categoryBadge.shopping {
+  background: #fce7f3;
+  color: #9f1239;
+}
+
+.categoryBadge.transportation {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.categoryBadge.utilities {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+
+.categoryBadge.entertainment {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.categoryBadge.health {
+  background: #ccfbf1;
+  color: #115e59;
+}
+
+.categoryBadge.travel {
+  background: #ddd6fe;
+  color: #5b21b6;
+}
+
+.categoryBadge.other {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+.statusBadge.processed {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.statusBadge.pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.statusBadge.failed {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.statusBadge.manual_review {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #6b7280;
+}
+
+.emptyIcon {
+  font-size: 4rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.emptyState h3 {
+  color: #374151;
+  margin: 0 0 0.5rem 0;
+}
+
+.emptyState p {
+  margin: 0;
+  color: #9ca3af;
+}
+
+.loadingReceipts {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #6b7280;
+}
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.resultsCount {
+  background: white;
+  padding: 1rem 1.5rem;
+  border-radius: 0 0 1rem 1rem;
+  text-align: center;
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin-top: -1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .navContent {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .syncButtons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .syncButton, .syncButtonSecondary {
+    width: 100%;
+  }
+
+  .filters {
+    flex-direction: column;
+  }
+
+  .filterSelect, .filterInput, .filterDate {
+    width: 100%;
+  }
+
+  .tableContainer {
+    overflow-x: auto;
+  }
+
+  .table {
+    min-width: 600px;
+  }
+}

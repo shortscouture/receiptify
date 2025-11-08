@@ -119,11 +119,18 @@ class GmailService {
       body = body.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
     }
 
+    // Extract email address from "Name <email@example.com>" format
+    const extractEmail = (fromHeader) => {
+      if (!fromHeader) return null;
+      const match = fromHeader.match(/<([^>]+)>/);
+      return match ? match[1] : fromHeader.trim();
+    };
+
     return {
       id: message.id,
       threadId: message.threadId,
       subject: getHeader('Subject'),
-      from: getHeader('From'),
+      from: extractEmail(getHeader('From')),
       to: getHeader('To'),
       date: getHeader('Date'),
       body: body.substring(0, 5000), // Limit body size

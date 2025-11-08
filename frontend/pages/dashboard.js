@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import Link from 'next/link';
 import styles from '../styles/Dashboard.module.css';
 
 export default function Dashboard() {
@@ -91,19 +92,28 @@ export default function Dashboard() {
           <p>You're now logged in via Google OAuth! This is your protected dashboard.</p>
           <div className={styles.features}>
             <div className={styles.feature}>
-              <span className={styles.featureIcon}>📝</span>
-              <h4>Upload Receipts</h4>
-              <p>Start uploading and organizing your receipts</p>
+              <span className={styles.featureIcon}>📧</span>
+              <h4>Sync Gmail Receipts</h4>
+              <p>Automatically import receipts from your email</p>
+              <Link href="/receipts" className={styles.featureButton}>
+                View Receipts →
+              </Link>
             </div>
             <div className={styles.feature}>
               <span className={styles.featureIcon}>📊</span>
               <h4>Track Expenses</h4>
               <p>Monitor your spending across categories</p>
+              <Link href="/receipts" className={styles.featureButton}>
+                Get Started →
+              </Link>
             </div>
             <div className={styles.feature}>
               <span className={styles.featureIcon}>🔍</span>
               <h4>Search & Filter</h4>
               <p>Find receipts quickly with powerful search</p>
+              <Link href="/receipts" className={styles.featureButton}>
+                Explore →
+              </Link>
             </div>
           </div>
         </div>

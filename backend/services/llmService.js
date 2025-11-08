@@ -32,27 +32,40 @@ class LLMService {
    * Build prompt for LLM
    */
   buildPrompt(emailContent, metadata) {
-    return `You are an AI assistant that extracts structured receipt/invoice data from emails.
+    return `You are a JSON-only API that extracts receipt data from emails. 
+
+IMPORTANT: Return ONLY valid JSON. No markdown, no code blocks, no explanations, no extra text.
 
 Email Subject: ${metadata.subject || 'N/A'}
 Email From: ${metadata.from || 'N/A'}
 Email Date: ${metadata.date || 'N/A'}
 
 Email Content:
-${emailContent}
+${emailContent.substring(0, 3000)}
 
-Extract the following information and return ONLY a valid JSON object (no markdown, no explanation):
+Return this exact JSON structure (replace values, keep structure):
 {
-  "date": "YYYY-MM-DD format of purchase date",
-  "merchant": "merchant/vendor name",
-  "category": "one of: groceries, dining, shopping, transportation, utilities, entertainment, health, travel, other",
-  "amount": "numeric amount without currency symbol",
-  "currency": "3-letter currency code (e.g., USD, PHP, EUR)",
-  "items": "brief description of items purchased",
-  "confidence": "high, medium, or low"
+  "date": "YYYY-MM-DD",
+  "merchant": "merchant name",
+  "category": "groceries|dining|shopping|transportation|utilities|entertainment|health|travel|other",
+  "amount": "123.45",
+  "currency": "USD",
+  "items": "brief description or null",
+  "confidence": "high|medium|low"
 }
 
-If you cannot find a field, use null. Return ONLY the JSON object.`;
+CRITICAL Rules:
+- date: Purchase date in YYYY-MM-DD format (use email date if not found)
+- merchant: Company/store name from the receipt
+- category: MUST be one of the listed options
+- amount: MUST be the TOTAL AMOUNT PAID as a number (e.g., "711.75"). Look for terms like "Total", "Amount paid", "Total due", "Charged", or the largest amount. Extract from currency symbols like $, €, £, ₱, ¥, etc.
+- currency: 3-letter ISO code matching the currency symbol ($ = USD, € = EUR, £ = GBP, ₱ = PHP, ¥ = JPY, etc.)
+- items: Short description of what was purchased
+- confidence: high if amount and merchant are clear, medium if some unclear, low if guessing
+
+IMPORTANT: The amount field MUST contain a valid positive number. If no amount found, use confidence "low" but still extract a reasonable estimate.
+
+Return ONLY the JSON object, nothing else.`;
   }
 
   /**
@@ -166,22 +179,129 @@ If you cannot find a field, use null. Return ONLY the JSON object.`;
    * Parse LLM response and extract JSON
    */
   parseResponse(text) {
-    // Remove markdown code blocks if present
-    text = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
-    
+    if (!text) {
+      throw new Error('Empty response from LLM');
+    }
+
+    console.log('Raw LLM response:', text.substring(0, 200));
+
+    // Try multiple parsing strategies
+    let jsonText = text;
+
+    // Strategy 1: Remove markdown code blocks
+    jsonText = jsonText.replace(/```json\s*/gi, '').replace(/```\s*/g, '');
+
+    // Strategy 2: Remove common prefixes
+    jsonText = jsonText.replace(/^Here's the extracted data:?\s*/i, '');
+    jsonText = jsonText.replace(/^Here is the JSON:?\s*/i, '');
+    jsonText = jsonText.replace(/^The extracted receipt data is:?\s*/i, '');
+    jsonText = jsonText.replace(/^Based on the email.*?:\s*/i, '');
+
+    // Strategy 3: Extract JSON from text (find first { to last })
+    const jsonMatch = jsonText.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      jsonText = jsonMatch[0];
+    }
+
+    // Strategy 4: Clean up extra text after JSON
+    const jsonEndMatch = jsonText.match(/^(\{[\s\S]*?\})\s*$/);
+    if (jsonEndMatch) {
+      jsonText = jsonEndMatch[1];
+    }
+
+    // Remove any trailing text after the closing brace
+    const lastBraceIndex = jsonText.lastIndexOf('}');
+    if (lastBraceIndex !== -1) {
+      jsonText = jsonText.substring(0, lastBraceIndex + 1);
+    }
+
+    jsonText = jsonText.trim();
+
+    console.log('Cleaned JSON text:', jsonText.substring(0, 200));
+
     try {
-      const json = JSON.parse(text);
+      const json = JSON.parse(jsonText);
       
       // Validate required fields
-      if (!json.date || !json.merchant || !json.amount) {
-        throw new Error('Missing required fields in LLM response');
+      if (!json.date || !json.merchant || !json.amount || json.amount === null) {
+        console.error('Missing required fields:', json);
+        throw new Error('Missing required fields in LLM response: date, merchant, or amount');
+      }
+
+      // Sanitize and validate data
+      const sanitized = {
+        date: json.date,
+        merchant: String(json.merchant).trim(),
+        category: json.category || 'other',
+        amount: parseFloat(json.amount),
+        currency: json.currency || 'USD',
+        items: json.items || null,
+        confidence: json.confidence || 'medium'
+      };
+
+      // Validate amount is a valid number
+      if (isNaN(sanitized.amount) || sanitized.amount <= 0) {
+        console.error('Invalid amount:', sanitized.amount);
+        throw new Error('Invalid or missing amount in LLM response');
+      }
+
+      // Validate category
+      const validCategories = ['groceries', 'dining', 'shopping', 'transportation', 'utilities', 'entertainment', 'health', 'travel', 'other'];
+      if (!validCategories.includes(sanitized.category)) {
+        sanitized.category = 'other';
+      }
+
+      // Validate confidence
+      const validConfidence = ['high', 'medium', 'low'];
+      if (!validConfidence.includes(sanitized.confidence)) {
+        sanitized.confidence = 'medium';
+      }
+
+      console.log('Successfully parsed receipt:', sanitized);
+      return sanitized;
+    } catch (error) {
+      console.error('Failed to parse LLM response:', error.message);
+      console.error('Attempted to parse:', jsonText);
+      
+      // Last resort: try to extract key information with regex
+      try {
+        const fallback = this.fallbackExtraction(text);
+        if (fallback) {
+          console.log('Using fallback extraction:', fallback);
+          return fallback;
+        }
+      } catch (fallbackError) {
+        console.error('Fallback extraction also failed:', fallbackError.message);
       }
       
-      return json;
-    } catch (error) {
-      console.error('Failed to parse LLM response:', text);
-      throw new Error('Invalid JSON response from LLM');
+      throw new Error(`Invalid JSON response from LLM: ${error.message}`);
     }
+  }
+
+  /**
+   * Fallback extraction if JSON parsing fails
+   */
+  fallbackExtraction(text) {
+    // Try to extract key fields using regex patterns
+    const dateMatch = text.match(/"date"\s*:\s*"([^"]+)"/);
+    const merchantMatch = text.match(/"merchant"\s*:\s*"([^"]+)"/);
+    const amountMatch = text.match(/"amount"\s*:\s*"?([0-9.]+)"?/);
+    const categoryMatch = text.match(/"category"\s*:\s*"([^"]+)"/);
+    const currencyMatch = text.match(/"currency"\s*:\s*"([^"]+)"/);
+
+    if (dateMatch && merchantMatch && amountMatch) {
+      return {
+        date: dateMatch[1],
+        merchant: merchantMatch[1],
+        category: categoryMatch ? categoryMatch[1] : 'other',
+        amount: parseFloat(amountMatch[1]),
+        currency: currencyMatch ? currencyMatch[1] : 'USD',
+        items: null,
+        confidence: 'low'
+      };
+    }
+
+    return null;
   }
 }
 

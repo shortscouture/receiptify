@@ -37,7 +37,7 @@ class ReceiptProcessor {
       const receipt = await Receipt.create({
         userId,
         emailId: email.id,
-        date: new Date(extractedData.date),
+        datetime: new Date(extractedData.date),
         merchant: extractedData.merchant,
         category: extractedData.category,
         amount: parseFloat(extractedData.amount),
@@ -56,14 +56,16 @@ class ReceiptProcessor {
     } catch (error) {
       console.error(`Error processing email ${emailId}:`, error);
       
-      // Create failed record
+      // Create failed record with required fields
       const Receipt = models.Receipt;
       await Receipt.create({
         userId,
         emailId,
-        date: new Date(),
+        datetime: new Date(),
         merchant: 'Unknown',
+        category: 'other',
         amount: 0,
+        currency: 'USD',
         status: 'failed',
         notes: `Processing failed: ${error.message}`
       }).catch(err => console.error('Failed to create error record:', err));
