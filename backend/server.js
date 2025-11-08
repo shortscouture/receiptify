@@ -4,6 +4,7 @@ const cors = require('cors');
 const { sequelize, initializeModels } = require('./models');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
+const receiptRoutes = require('./routes/receipt');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -20,6 +21,7 @@ app.get('/', (req, res) => {
 
 app.use('/auth', authRoutes);
 app.use('/api', userRoutes);
+app.use('/receipts', receiptRoutes);
 
 const startServer = async () => {
     try {
