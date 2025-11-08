@@ -7,6 +7,7 @@ const passport = require('./config/passport');
 const { sequelize, initializeModels } = require('./models');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
+const gmailRoutes = require('./routes/gmail');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -58,6 +59,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api', userRoutes);
+app.use('/api/gmail', gmailRoutes);
 
 const startServer = async () => {
     try {

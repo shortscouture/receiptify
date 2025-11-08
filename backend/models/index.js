@@ -14,7 +14,8 @@ const db = {
 const initializeModels = () => {
   const modelDefiners = [
     require('./user'),
-    require('./receipt')
+    require('./receipt'),
+    require('./userToken')
   ];
 
   modelDefiners.forEach((defineModel) => {
@@ -22,11 +23,16 @@ const initializeModels = () => {
     db.models[model.name] = model;
   });
 
-  const { User, Receipt } = db.models;
+  const { User, Receipt, UserToken } = db.models;
 
   if (User && Receipt) {
     User.hasMany(Receipt, { foreignKey: 'userId', as: 'receipts' });
     Receipt.belongsTo(User, { foreignKey: 'userId', as: 'user' });
+  }
+
+  if (User && UserToken) {
+    User.hasOne(UserToken, { foreignKey: 'userId', as: 'token' });
+    UserToken.belongsTo(User, { foreignKey: 'userId', as: 'user' });
   }
 
   return db;
