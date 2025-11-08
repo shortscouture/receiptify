@@ -1,0 +1,373 @@
+.page {
+  min-height: 100vh;
+  background: #f5f7fb;
+  color: #1f2937;
+}
+
+.nav {
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.navContent {
+  margin: 0 auto;
+  max-width: 960px;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: inherit;
+}
+
+.logoIcon {
+  font-size: 1.4rem;
+}
+
+.navLinks {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.navLink {
+  text-decoration: none;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.navLink:hover {
+  color: #111827;
+}
+
+.active {
+  color: #2563eb;
+}
+
+.main {
+  margin: 0 auto;
+  max-width: 960px;
+  padding: 2rem 1.5rem 3rem;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 20px 45px -20px rgba(30, 64, 175, 0.25);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.cardHeader {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.cardHeader h1 {
+  font-size: 1.75rem;
+  margin-bottom: 0.25rem;
+}
+
+.cardHeader p {
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+.hintBox {
+  border: 1px dashed #c7d2fe;
+  background: #eef2ff;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.hintTitle {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.hintBox ul {
+  margin: 0;
+  padding-left: 1.5rem;
+  color: #4b5563;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.fileInputLabel {
+  border: 2px dashed #cbd5f5;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  color: #4b5563;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border 0.2s ease, color 0.2s ease;
+}
+
+.fileInputLabel:hover {
+  border-color: #2563eb;
+  color: #2563eb;
+}
+
+.fileInputLabel input {
+  display: none;
+}
+
+.fileMeta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.previewWrapper {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1rem;
+  background: #f9fafb;
+}
+
+.previewTitle {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.previewImage {
+  max-height: 320px;
+  width: auto;
+  border-radius: 8px;
+  box-shadow: 0 12px 24px -12px rgba(15, 23, 42, 0.35);
+}
+
+.submitButton {
+  border: none;
+  background: #2563eb;
+  color: white;
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 0.85rem 1.2rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.submitButton:disabled {
+  background: #9ca3af;
+  cursor: wait;
+}
+
+.submitButton:not(:disabled):hover {
+  background: #1d4ed8;
+}
+
+.errorBox {
+  background: #fee2e2;
+  color: #b91c1c;
+  border-radius: 12px;
+  padding: 1rem;
+  font-weight: 500;
+}
+
+.resultCard {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 1.5rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.jsonBlock {
+  background: #111827;
+  color: #f9fafb;
+  border-radius: 12px;
+  padding: 1rem;
+  overflow-x: auto;
+  font-family: "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 0.9rem;
+}
+
+.sourceMeta {
+  display: grid;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.loadingContainer {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  color: #4b5563;
+}
+
+.spinner {
+  width: 42px;
+  height: 42px;
+  border: 4px solid #dbeafe;
+  border-top-color: #2563eb;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.editForm {
+  display: grid;
+  gap: 1.25rem;
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+}
+
+.editForm h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #1f2937;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.formControl,
+.formControlFull {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.formControl span,
+.formControlFull span {
+  font-weight: 600;
+}
+
+.formControl input,
+.formControl select,
+.formControlFull textarea {
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  padding: 0.65rem 0.75rem;
+  font-size: 1rem;
+  background: white;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.formControl input:focus,
+.formControl select:focus,
+.formControlFull textarea:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+  outline: none;
+}
+
+.formControlFull textarea {
+  resize: vertical;
+}
+
+.successBox {
+  background: #dcfce7;
+  color: #166534;
+  border-radius: 12px;
+  padding: 1rem;
+  font-weight: 500;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.linkButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: #2563eb;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-weight: 600;
+  text-decoration: none;
+  width: fit-content;
+}
+
+.linkButton:hover {
+  background: #1d4ed8;
+}
+
+.savedMeta {
+  font-size: 0.95rem;
+  color: #4b5563;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.actionsRow {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.saveButton {
+  border: none;
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  color: white;
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 0.85rem 1.5rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.saveButton:disabled {
+  background: #9ca3af;
+  cursor: wait;
+  transform: none;
+  box-shadow: none;
+}
+
+.saveButton:not(:disabled):hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px -12px rgba(37, 99, 235, 0.5);
+}
+
+@media (max-width: 720px) {
+  .card {
+    padding: 1.5rem;
+  }
+
+  .navContent {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navLinks {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 1rem;
+  }
+
+  .fileMeta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

@@ -18,8 +18,25 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // CORS configuration - important for OAuth
+const defaultAllowedOrigins = ['http://localhost:3000', 'http://localhost', 'http://localhost:3001'];
+const envAllowedOrigins = (process.env.CORS_ORIGINS || process.env.FRONTEND_URL || '')
+  .split(',')
+  .map(origin => origin.trim())
+  .filter(Boolean);
+const allowedOrigins = [...new Set([...envAllowedOrigins, ...defaultAllowedOrigins])];
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost',
+  origin: (origin, callback) => {
+    if (!origin) {
+      return callback(null, true);
+    }
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error(`Origin ${origin} not allowed by CORS`));
+  },
   credentials: true
 }));
 
