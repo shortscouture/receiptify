@@ -12,6 +12,9 @@ yarn-error.log*
 /build
 /out
 
+/data/*
+data/*
+
 # Environment variables
 .env
 .env.local
