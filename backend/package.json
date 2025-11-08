@@ -1,0 +1,22 @@
+{
+  "name": "node-express-sqlite-api",
+  "version": "1.0.0",
+  "description": "Node.js/Express API with SQLite",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "jest"
+  },
+  "author": "Edwin Gumba Jr, Kyle Philippe Santos, Brylle Ace Nunez, Vinz Michael Tapiru",
+  "dependencies": {
+    "express": "^4.21.2",
+    "sequelize": "^6.37.7",
+    "sqlite3": "^5.1.6",
+    "dotenv": "^17.2.3",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.1.4"
+  }
+}

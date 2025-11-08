@@ -1,0 +1,34 @@
+services:
+  backend:
+    build: 
+      context: ./backend # Use the existing backend Dockerfile
+    ports:
+      - "3000:3000" # Map host port 3000 to container port 3000
+    volumes:
+      - ./backend:/usr/src/app  # Volume mount for development (optional)
+      - /usr/src/app/node_modules # Anonymous volume for node_modules
+      - backend-data:/usr/src/app/data # Crucial for SQLite persistence
+    environment:
+      - PORT=3000
+      - DB_PATH=/usr/src/app/data/app.db # Point to the SQLite file in the volume
+    restart: always
+
+  frontend:
+    build:
+      context: ./frontend # Build from the root context, using the Dockerfile path
+    ports:
+      - "80:3000" # Map host port 80 (or 8080) to container port 3000
+    volumes:
+      # Use an "anonymous volume" for node_modules to ensure the built code is used
+      - /app/node_modules 
+    environment:
+      # Set the URL the Next.js client uses to talk to the backend
+      # 'backend:3000' is the internal Docker network DNS name and port
+      - NEXT_PUBLIC_API_URL=http://backend:3000
+    depends_on:
+      - backend # Ensure the backend starts before the frontend
+    restart: always
+
+# Define the volume for persistent SQLite data
+volumes:
+  backend-data:
