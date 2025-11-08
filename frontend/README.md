@@ -1,5 +1,17 @@
 # With Docker
 
+## Receipt Image Upload Test Page
+
+The app now includes a lightweight page for testing the Gemini-powered receipt parsing endpoint.
+
+1. Ensure the backend is running and accessible at the URL defined in `NEXT_PUBLIC_API_URL` (defaults to `http://localhost:3000`).
+2. Start the Next.js dev server with `npm run dev`.
+3. Visit [http://localhost:3000/receipts-upload](http://localhost:3000/receipts-upload) after authenticating.
+4. Select a receipt photo (JPEG/PNG/WEBP) and click **Upload & Extract** to view the structured JSON and an auto-filled form.
+5. Review or adjust the extracted values, then press **Save Receipt** to create the entry in your receipts table.
+
+The upload form enforces image-only inputs, surfaces backend errors, and keeps the editable form in sync with each new extraction.
+
 This examples shows how to use Docker with Next.js based on the [deployment documentation](https://nextjs.org/docs/deployment#docker-image). Additionally, it contains instructions for deploying to Google Cloud Run. However, you can use any container-based deployment host.
 
 ## How to use
