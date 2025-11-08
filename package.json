@@ -1,0 +1,23 @@
+{
+  "name": "receiptify",
+  "version": "1.0.0",
+  "description": "Devkada Hackathon ",
+  "homepage": "https://github.com/shortscouture/receiptify#readme",
+  "bugs": {
+    "url": "https://github.com/shortscouture/receiptify/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shortscouture/receiptify.git"
+  },
+  "license": "ISC",
+  "author": "Edwin Gumba Jr, Kyle Philippe Santos, Brylle Ace Nunez, Vinz Michael Tapiru",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
